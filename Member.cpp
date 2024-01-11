@@ -15,10 +15,10 @@ int Member::memberID() {
     return i_memberID;
 }
 
-std::vector<Book> Member::booksBorrowed() {
-    return vectorBook_booksLoaned;
+std::map<int, Book> Member::booksBorrowed() {
+    return mapBook_booksLoaned;
 }
 
-void Member::setBooksBorrowed(Book book) {
-    vectorBook_booksLoaned.push_back(book);
+void Member::setBooksBorrowed(std::map<int, Book> books) {
+    mapBook_booksLoaned = books;
 }

@@ -2,6 +2,7 @@
 #define MEMBER_H
 
 #include <vector>
+#include <map>
 
 #include "Person.h"
 
@@ -11,7 +12,7 @@ class Member : public Person {
 private:
 
   int i_memberID;
-  std::vector<Book> vectorBook_booksLoaned;
+  std::map<int, Book> mapBook_booksLoaned;
 
 public:
   Member(int memberID, std::string name, std::string address,
@@ -20,8 +21,8 @@ public:
 
   int memberID();
 
-  std::vector<Book> booksBorrowed();
-  void setBooksBorrowed(Book book);
+  std::map<int, Book> booksBorrowed();
+  void setBooksBorrowed(std::map<int, Book> books);
 };
 
 #endif

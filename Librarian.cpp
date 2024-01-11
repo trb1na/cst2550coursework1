@@ -1,4 +1,8 @@
 #include "Librarian.h"
+#include "globals.h"
+#include "Member.h"
+#include "Book.h"
+#include <iostream>
 
 Librarian::Librarian(int staffid, std::string name, std::string address,
     std::string email, int salary) {
@@ -20,20 +24,28 @@ int Librarian::salary() {
     return i_salary;
 }
 
-void Librarian::addMember() {
-
+void Librarian::addMember(int memberID, std::string name, std::string address,
+    std::string email) {
+    Members.emplace(memberID, Member(memberID, name, address, email));
 }
 
 void Librarian::issueBook(int memberid, int bookid) {
-
+    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    tempBooksBorrowed.emplace(Books[bookid].bookID(), Books[bookid]);
+    Members[memberid].setBooksBorrowed(tempBooksBorrowed);
 }
 
 void Librarian::returnBook(int memberid, int bookid) {
-
+    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    tempBooksBorrowed.erase(bookid);
+    Members[memberid].setBooksBorrowed(tempBooksBorrowed);
 }
 
 void Librarian::displayBorrowedBooks(int memberid) {
-
+    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    for (auto& pair : tempBooksBorrowed) {
+        std::cout << pair.second.bookName();
+    }
 }
 
 void Librarian::calcFine(int memberid) {

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <regex>
+#include <ctime>
 
 #include "Book.h"
 #include "Librarian.h"
@@ -32,6 +33,7 @@ int userInput(std::string message) {
             std::cout << "Invalid input. Please enter a number. \n";
         }
         else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
             break;
         }
     }
@@ -48,6 +50,7 @@ std::string userInput(const std::string& message, const std::regex pattern) {
             std::cout << "Invalid input. Please enter a valid string.\n";
         }
         else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             break;
         }
     }
@@ -55,31 +58,38 @@ std::string userInput(const std::string& message, const std::regex pattern) {
 }
 
 void menuAddMember() {
-    std::regex temp("");
-    int iMemberid = userInput("");
-    std::string strName = userInput("",temp);
-    std::string strAddress = userInput("",temp);
-    std::string strEmail = userInput("",temp);
+    std::regex temp("^[A-Za-z]+(?:[ '-][A-Za-z]+)*$");
+    int iMemberid = userInput("memberid:");
+    std::string strName = userInput("name:",temp);
+    std::string strAddress = userInput("address:",temp);
+    std::string strEmail = userInput("email:",temp);
     Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
 }
 
 void menuIssueBook() {
-
+    int iMemberid = userInput("memberid:");
+    int iBookid = userInput("bookid:");
+    Librarian1.issueBook(iMemberid, iBookid);
 }
 
 void menuReturnBook() {
-
+    int iMemberid = userInput("memberid:");
+    int iBookid = userInput("bookid:");
+    Librarian1.returnBook(iMemberid, iBookid);
 }
 
 void menuDisplayBooks() {
-
+    int iMemberid = userInput("memberid:");
+    Librarian1.displayBorrowedBooks(iMemberid);
 }
 
 void menuCalculateFines() {
-
+    int iMemberid = userInput("memberid:");
+    Librarian1.calcFine(iMemberid);
 }
 
 void loadCSV() {
+
     std::string filename;
     for (const auto& entry : fs::directory_iterator(fs::current_path())) {
         if (entry.path().extension() == ".csv") {
@@ -93,41 +103,41 @@ void loadCSV() {
     if (!file.is_open()) {
         throw std::runtime_error("File cannot be opened.");
     }
+    else {
+        std::string line;
 
-    std::string line;
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
 
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
+            int iBookid;
+            std::string strBookName;
+            std::string strPageCount;
+            std::string strAuthorFirstName;
+            std::string strAuthorLastName;
+            std::string strBookType;
+            char delimiter = ',';
 
-        int iBookid;
-        std::string strBookName;
-        std::string strPageCount;
-        std::string strAuthorFirstName;
-        std::string strAuthorLastName;
-        std::string strBookType;
-        char delimiter = ',';
+            ss >> iBookid;
+            ss.ignore();
+            std::getline(ss, strBookName, delimiter);
+            std::getline(ss, strPageCount, delimiter);
+            std::getline(ss, strAuthorFirstName, delimiter);
+            std::getline(ss, strAuthorLastName, delimiter);
+            std::getline(ss, strBookType, delimiter);
 
-        ss >> iBookid;
-        ss.ignore();
-        std::getline(ss, strBookName, delimiter);
-        std::getline(ss, strPageCount, delimiter);
-        std::getline(ss, strAuthorFirstName, delimiter);
-        std::getline(ss, strAuthorLastName, delimiter);
-        std::getline(ss, strBookType, delimiter);
-
-        Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
+            Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
+        }
     }
-
-
 }
 
 int main()
 {
+    loadCSV();
     int menuchoice;
     while (true)
     {
         std::cout << "Select an Option : \n";
-        menuchoice = userInput("( 1 ) - Add a member. \n ( 2 ) - Issue a book to a member. \n ( 3 ) - Return a book. \n ( 4 ) - Display all books borrowed by a member. \n ( 5 ) - Calculate overdue fine for a member. \n ( 0 ) - Exit software.");
+        menuchoice = userInput(" ( 1 ) - Add a member. \n ( 2 ) - Issue a book to a member. \n ( 3 ) - Return a book. \n ( 4 ) - Display all books borrowed by a member. \n ( 5 ) - Calculate overdue fine for a member. \n ( 0 ) - Exit software.");
 
             switch (menuchoice) {
             case 1:

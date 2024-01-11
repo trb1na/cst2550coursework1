@@ -21,7 +21,8 @@ public:
   int staffID();
   int salary();
 
-  void addMember();
+  void addMember(int memberID, std::string name, std::string address,
+      std::string email);
   void issueBook(int memberid, int bookid);
   void returnBook(int memberid, int bookid);
   void displayBorrowedBooks(int memberid);
