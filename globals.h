@@ -3,8 +3,9 @@
 
 #include <vector>
 #include <map>
-#include "Book.h"
-#include "Member.h"
+
+class Member;
+class Book;
 
 extern std::map<int, Book>  Books; 
 extern std::map<int, Member> Members;

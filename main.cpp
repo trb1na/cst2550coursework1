@@ -2,6 +2,9 @@
 #include <vector>
 #include <limits>
 #include <map>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
 #include <regex>
 
 #include "Book.h"
@@ -9,6 +12,13 @@
 #include "Member.h"
 #include "Person.h"
 #include "globals.h"
+
+namespace fs = std::filesystem;
+
+std::map<int, Member> Members;
+std::map<int, Book> Books;
+
+Librarian Librarian1 = Librarian(1, std::string("bober"), std::string("123"), std::string("email"), 400000);
 
 int userInput(std::string message) {
     int tempInput;
@@ -66,6 +76,37 @@ void menuDisplayBooks() {
 }
 
 void menuCalculateFines() {
+
+}
+
+void loadCSV() {
+    std::string filename;
+    for (const auto& entry : fs::directory_iterator(fs::current_path())) {
+        if (entry.path().extension() == ".csv") {
+            filename = entry.path().string();
+            break;
+        }
+    }
+    
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        throw std::runtime_error("File cannot be opened.");
+    }
+
+    std::string line;
+
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+
+        int iBookid;
+        std::string strBookName;
+        std::string strAuthorFirstName;
+        std::string strAuthorLastName;
+        std::string strBookType;
+        
+    }
+
 
 }
 
