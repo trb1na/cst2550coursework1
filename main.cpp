@@ -8,7 +8,7 @@
 #include "Librarian.h"
 #include "Member.h"
 #include "Person.h"
-
+#include "globals.h"
 
 int userInput(std::string message) {
     int tempInput;
@@ -45,7 +45,12 @@ std::string userInput(const std::string& message, const std::regex pattern) {
 }
 
 void menuAddMember() {
-
+    std::regex temp("");
+    int iMemberid = userInput("");
+    std::string strName = userInput("",temp);
+    std::string strAddress = userInput("",temp);
+    std::string strEmail = userInput("",temp);
+    Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
 }
 
 void menuIssueBook() {
@@ -74,14 +79,19 @@ int main()
 
             switch (menuchoice) {
             case 1:
+                menuAddMember();
                 break;
             case 2:
+                menuIssueBook();
                 break;
             case 3:
+                menuReturnBook();
                 break;
             case 4:
+                menuDisplayBooks();
                 break;
             case 5:
+                menuCalculateFines();
                 break;
             case 0:
                 break;
