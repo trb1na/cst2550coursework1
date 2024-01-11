@@ -19,7 +19,7 @@ private:
 
 public:
   Book(int bookid, std::string bookname, std::string authorfirstname,
-       std::string authorlastname);
+       std::string authorlastname, std::string booktype);
   Book();
 
   int bookID();

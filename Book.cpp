@@ -2,11 +2,12 @@
 
 
 Book::Book(int bookid, std::string bookname, std::string authorfirstname,
-    std::string authorlastname) {
+    std::string authorlastname, std::string booktype) {
     i_bookID = bookid;
     str_bookName = bookname;
     str_authorFirstName = authorfirstname;
     str_authorLastName = authorlastname;
+    str_bookType = booktype;
 }
 
 Book::Book() {};

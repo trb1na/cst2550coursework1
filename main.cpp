@@ -101,10 +101,21 @@ void loadCSV() {
 
         int iBookid;
         std::string strBookName;
+        std::string strPageCount;
         std::string strAuthorFirstName;
         std::string strAuthorLastName;
         std::string strBookType;
-        
+        char delimiter = ',';
+
+        ss >> iBookid;
+        ss.ignore();
+        std::getline(ss, strBookName, delimiter);
+        std::getline(ss, strPageCount, delimiter);
+        std::getline(ss, strAuthorFirstName, delimiter);
+        std::getline(ss, strAuthorLastName, delimiter);
+        std::getline(ss, strBookType, delimiter);
+
+        Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
     }
 
 
