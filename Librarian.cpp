@@ -49,8 +49,17 @@ void Librarian::displayBorrowedBooks(int memberid) {
 
 void Librarian::calcFine(int memberid) {
     std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    time_t currentTime = time(nullptr);
+
     for (auto& pair : tempBooksBorrowed) {
-        pair.second.DueDate();
+        time_t dueDate = pair.second.DueDate();
+
+        if (dueDate < currentTime) {
+            int iDaysOverdue = difftime(currentTime, dueDate) / (60 * 60 * 24);
+            int iFineAmount = iDaysOverdue * 10;
+
+            std::cout << "Book ID " << pair.first << " is overdue. Fine: £" << iFineAmount << std::endl;
+        }
     }
 }
 
