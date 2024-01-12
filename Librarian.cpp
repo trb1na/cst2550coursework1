@@ -11,7 +11,6 @@ Librarian::Librarian(int staffid, std::string name, std::string address,
     str_address = address;
     str_email = email;
     str_name = name;
-
 }
 
 Librarian::Librarian() {};
@@ -50,6 +49,16 @@ void Librarian::displayBorrowedBooks(int memberid) {
 
 void Librarian::calcFine(int memberid) {
 
+    time(&currentTime);
+    time_t futureTime = currentTime + 3 * 24 * 60 * 60;
+    tm futureLocalTime;
+    localtime_s(&futureLocalTime, &futureTime);
+
+    int day = futureLocalTime.tm_mday;
+    int month = futureLocalTime.tm_mon + 1;
+    int year = futureLocalTime.tm_year + 1900;
+
+    std::cout << "Future Date: " << day << "/" << month << "/" << year << std::endl;
 }
 
 void Librarian::setStaffID(int staffid) {

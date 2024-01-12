@@ -14,7 +14,7 @@ private:
   std::string str_authorFirstName;
   std::string str_authorLastName;
   std::string str_bookType;
-  std::string str_dueDate;
+  time_t str_dueDate;
   Member member_borrower;
 
 public:
@@ -26,11 +26,11 @@ public:
   std::string bookName();
   std::string AuthorFirsName();
   std::string AuthorLastName();
-  std::string DueDate();
+  time_t DueDate();
 
-  void setDueDate(std::string duedate);
+  void setDueDate(time_t duedate);
   void returnBook();
-  void borrowBook(Member borrower, std::string duedate);
+  void borrowBook(Member borrower, time_t duedate);
 };
 
 #endif 

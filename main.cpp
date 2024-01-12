@@ -18,15 +18,15 @@ namespace fs = std::filesystem;
 
 std::map<int, Member> Members;
 std::map<int, Book> Books;
+time_t currentTime = time(nullptr);
 
-Librarian Librarian1 = Librarian(1, std::string("bober"), std::string("123"), std::string("email"), 400000);
+Librarian Librarian1 = Librarian(1, std::string("Librarian"), std::string("777 Librarian Road"), std::string("email@gmail.com"), 400000);
 
 int userInput(std::string message) {
     int tempInput;
     while (true) {
         std::cout << message;
         std::cin >> tempInput;
-
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -59,32 +59,35 @@ std::string userInput(const std::string& message, const std::regex pattern) {
 
 void menuAddMember() {
     std::regex temp("^[A-Za-z]+(?:[ '-][A-Za-z]+)*$");
-    int iMemberid = userInput("memberid:");
-    std::string strName = userInput("name:",temp);
-    std::string strAddress = userInput("address:",temp);
-    std::string strEmail = userInput("email:",temp);
+    int iMemberid = userInput("Member ID : ");
+    std::string strName = userInput("Name : ",temp);
+    std::string strAddress = userInput("Address : ",temp);
+    std::string strEmail = userInput("Email : ",temp);
     Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
+    std::cout << "Made an account with : " << std::endl;
+    std::cout << "Member ID : " << iMemberid << "Name : " << 
+        strName << "Address : " << strAddress << "Email : " << strEmail << std::endl;
 }
 
 void menuIssueBook() {
-    int iMemberid = userInput("memberid:");
-    int iBookid = userInput("bookid:");
+    int iMemberid = userInput("Member ID : ");
+    int iBookid = userInput("Book ID : ");
     Librarian1.issueBook(iMemberid, iBookid);
 }
 
 void menuReturnBook() {
-    int iMemberid = userInput("memberid:");
-    int iBookid = userInput("bookid:");
+    int iMemberid = userInput("Member ID : ");
+    int iBookid = userInput("Book ID : ");
     Librarian1.returnBook(iMemberid, iBookid);
 }
 
 void menuDisplayBooks() {
-    int iMemberid = userInput("memberid:");
+    int iMemberid = userInput("Member ID : ");
     Librarian1.displayBorrowedBooks(iMemberid);
 }
 
 void menuCalculateFines() {
-    int iMemberid = userInput("memberid:");
+    int iMemberid = userInput("Member ID : ");
     Librarian1.calcFine(iMemberid);
 }
 
