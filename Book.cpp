@@ -8,6 +8,7 @@ Book::Book(int bookid, std::string bookname, std::string authorfirstname,
     str_authorFirstName = authorfirstname;
     str_authorLastName = authorlastname;
     str_bookType = booktype;
+    str_dueDate = NULL;
 }
 
 Book::Book() {};

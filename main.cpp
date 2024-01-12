@@ -46,11 +46,9 @@ std::string userInput(const std::string& message, const std::regex pattern) {
         std::cout << message;
         if (!std::getline(std::cin, tempInput) || !std::regex_match(tempInput, pattern)) {
             std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "Invalid input. Please enter a valid string.\n";
         }
         else {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             break;
         }
     }
@@ -70,25 +68,66 @@ void menuAddMember() {
 }
 
 void menuIssueBook() {
+    std::regex regexDate(R"(^\d{2}/\d{2}/\d{4}$)");
     int iMemberid = userInput("Member ID : ");
     int iBookid = userInput("Book ID : ");
-    Librarian1.issueBook(iMemberid, iBookid);
+
+    std::string strDate = userInput("Due date (DD/MM/YYYY) : ", regexDate);
+    std::tm date;
+    std::istringstream ss(strDate);
+    char delimiter;
+    ss >> date.tm_mday >> delimiter >> date.tm_mon >> delimiter >> date.tm_year;
+
+    if (ss.fail() || delimiter != '/') {
+        
+    }
+    else {
+        int day = date.tm_mday;
+        int month = date.tm_mon + 1;
+        int year = date.tm_year + 1900;
+
+        if (Books[iBookid].DueDate() == NULL)
+        {
+            Librarian1.issueBook(iMemberid, iBookid);
+            Books[iBookid].setDueDate();
+        }
+        else {
+            std::cout << "Book has already been issued. \n";
+        }
+    }
 }
 
 void menuReturnBook() {
     int iMemberid = userInput("Member ID : ");
     int iBookid = userInput("Book ID : ");
-    Librarian1.returnBook(iMemberid, iBookid);
+    if (Books[iBookid].DueDate() == NULL) {
+        std::cout << "Member does not have this book.";
+    }
+    else {
+        Librarian1.returnBook(iMemberid, iBookid);
+    }
+    
 }
 
 void menuDisplayBooks() {
     int iMemberid = userInput("Member ID : ");
-    Librarian1.displayBorrowedBooks(iMemberid);
+    if (Members[iMemberid].booksBorrowed().size() > 0) {
+        Librarian1.displayBorrowedBooks(iMemberid);
+    }
+    else {
+        std::cout << "Member has no books";
+    }
 }
 
 void menuCalculateFines() {
     int iMemberid = userInput("Member ID : ");
-    Librarian1.calcFine(iMemberid);
+    if (Members[iMemberid].booksBorrowed().size() > 0) {
+        Librarian1.calcFine(iMemberid);
+    }
+    else {
+        std::cout << "Member has no books";
+    }
+    
 }
 
 void loadCSV() {
@@ -140,7 +179,7 @@ int main()
     while (true)
     {
         std::cout << "Select an Option : \n";
-        menuchoice = userInput(" ( 1 ) - Add a member. \n ( 2 ) - Issue a book to a member. \n ( 3 ) - Return a book. \n ( 4 ) - Display all books borrowed by a member. \n ( 5 ) - Calculate overdue fine for a member. \n ( 0 ) - Exit software.");
+        menuchoice = userInput(" ( 1 ) - Add a member. \n ( 2 ) - Issue a book to a member. \n ( 3 ) - Return a book. \n ( 4 ) - Display all books borrowed by a member. \n ( 5 ) - Calculate overdue fine for a member. \n ( 0 ) - Exit software. \n ~ : ");
 
             switch (menuchoice) {
             case 1:

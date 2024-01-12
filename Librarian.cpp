@@ -48,6 +48,16 @@ void Librarian::displayBorrowedBooks(int memberid) {
 }
 
 void Librarian::calcFine(int memberid) {
+    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    for (auto& pair : tempBooksBorrowed) {
+
+        pair.second.DueDate();
+    }
+
+
+
+
+
 
     time(&currentTime);
     time_t futureTime = currentTime + 3 * 24 * 60 * 60;
