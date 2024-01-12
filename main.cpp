@@ -7,6 +7,7 @@
 #include <sstream>
 #include <regex>
 #include <ctime>
+#include <chrono>
 
 #include "Book.h"
 #include "Librarian.h"
@@ -69,30 +70,38 @@ void menuAddMember() {
 
 void menuIssueBook() {
     std::regex regexDate(R"(^\d{2}/\d{2}/\d{4}$)");
-    int iMemberid = userInput("Member ID : ");
-    int iBookid = userInput("Book ID : ");
+    int iMemberid = userInput("Member ID: ");
+    int iBookid = userInput("Book ID: ");
 
-    std::string strDate = userInput("Due date (DD/MM/YYYY) : ", regexDate);
-    std::tm date;
+    std::string strDate = userInput("Due date (DD/MM/YYYY): ", regexDate);
+    std::tm date = {};
     std::istringstream ss(strDate);
     char delimiter;
     ss >> date.tm_mday >> delimiter >> date.tm_mon >> delimiter >> date.tm_year;
 
     if (ss.fail() || delimiter != '/') {
-        
+        std::cout << "Invalid date format.\n";
     }
     else {
-        int day = date.tm_mday;
-        int month = date.tm_mon + 1;
-        int year = date.tm_year + 1900;
+        date.tm_mon -= 1;
+        date.tm_year -= 1900; 
+        date.tm_hour = 0; date.tm_min = 0; date.tm_sec = 0;
 
-        if (Books[iBookid].DueDate() == NULL)
-        {
-            Librarian1.issueBook(iMemberid, iBookid);
-            Books[iBookid].setDueDate();
+        time_t dueDate = mktime(&date);
+        time_t currentTime = time(nullptr);
+        time_t minDueDate = currentTime + 24 * 60 * 60;
+
+        if (dueDate != -1 && dueDate >= minDueDate) {
+            if (Books[iBookid].DueDate() == 0) { 
+                Librarian1.issueBook(iMemberid, iBookid);
+                Books[iBookid].setDueDate(dueDate);
+            }
+            else {
+                std::cout << "Book has already been issued. \n";
+            }
         }
         else {
-            std::cout << "Book has already been issued. \n";
+            std::cout << "Invalid or past date entered. Please enter a future date. \n";
         }
     }
 }
