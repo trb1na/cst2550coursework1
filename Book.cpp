@@ -1,14 +1,13 @@
 #include "Book.h"
-
+#include "globals.h"
 
 Book::Book(int bookid, std::string bookname, std::string authorfirstname,
-    std::string authorlastname, std::string booktype) {
+    std::string authorlastname) {
     i_bookID = bookid;
     str_bookName = bookname;
     str_authorFirstName = authorfirstname;
     str_authorLastName = authorlastname;
-    str_bookType = booktype;
-    str_dueDate = NULL;
+    str_dueDate.time = NULL;
 }
 
 Book::Book() {};
@@ -29,19 +28,19 @@ std::string Book::AuthorLastName() {
     return str_authorLastName;
 }
 
-time_t Book::DueDate() {
+Time Book::DueDate() {
     return str_dueDate;
 }
 
 void Book::setDueDate(time_t duedate) {
-    str_dueDate = duedate;
+    str_dueDate.time = duedate;
 }
 
 void Book::returnBook() {
-    str_dueDate = NULL;
+    str_dueDate.time = NULL;
 }
 
-void Book::borrowBook(Member borrower, time_t duedate) {
+void Book::borrowBook(Member borrower, Time duedate) {
     str_dueDate = duedate;
     member_borrower = borrower;
 }

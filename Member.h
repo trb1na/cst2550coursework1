@@ -12,7 +12,7 @@ class Member : public Person {
 private:
 
   int i_memberID;
-  std::vector<Book> mapBook_booksLoaned;
+  std::vector<Book> vectorBook_booksLoaned;
 
 public:
   Member(int memberID, std::string name, std::string address,

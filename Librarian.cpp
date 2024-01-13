@@ -24,43 +24,38 @@ int Librarian::salary() {
 }
 
 void Librarian::addMember() {
-    Members.emplace(memberID, Member(memberID, name, address, email));
+    
 }
 
 void Librarian::issueBook(int memberid, int bookid) {
-    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
-    tempBooksBorrowed.emplace(Books[bookid].bookID(), Books[bookid]);
-    Members[memberid].setBooksBorrowed(tempBooksBorrowed);
+    Members[memberid].setBooksBorrowed(Books[bookid]);
 }
 
 void Librarian::returnBook(int memberid, int bookid) {
-    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
-    tempBooksBorrowed.erase(bookid);
-    Members[memberid].setBooksBorrowed(tempBooksBorrowed);
-    Books[bookid].returnBook();
+    Members[memberid].setBooksBorrowed(Books[bookid]);
 }
 
 void Librarian::displayBorrowedBooks(int memberid) {
-    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    std::vector<Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
     std::cout << "Books Borrowed : \n";
-    for (auto& pair : tempBooksBorrowed) {
-        std::cout << " - " << pair.second.bookName() << "\n";
+    for (auto& book : tempBooksBorrowed) {
+        std::cout << " - " << book.bookName() << "\n";
         std::cout << "\n\n";
     }
 }
 
 void Librarian::calcFine(int memberid) {
-    std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    std::vector<Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
     time_t currentTime = time(nullptr);
 
-    for (auto& pair : tempBooksBorrowed) {
-        time_t dueDate = pair.second.DueDate();
+    for (auto& book : tempBooksBorrowed) {
+        time_t dueDate = book.DueDate().time;
 
         if (dueDate < currentTime) {
             int iDaysOverdue = difftime(currentTime, dueDate) / (60 * 60 * 24);
             int iFineAmount = iDaysOverdue * 10;
 
-            std::cout << "Book ID " << pair.first << " is overdue. Fine: £" << iFineAmount << std::endl;
+            std::cout << "Book ID " << book.bookID() << " is overdue. Fine: £" << iFineAmount << std::endl;
         }
     }
 }

@@ -92,7 +92,7 @@ void menuIssueBook() {
         time_t minDueDate = currentTime + 24 * 60 * 60;
 
         if (dueDate != -1 && dueDate >= minDueDate) {
-            if (Books[iBookid].DueDate() == 0) { 
+            if (Books[iBookid].DueDate().time == NULL) { 
                 Librarian1.issueBook(iMemberid, iBookid);
                 Books[iBookid].setDueDate(dueDate);
             }
@@ -109,7 +109,7 @@ void menuIssueBook() {
 void menuReturnBook() {
     int iMemberid = userInput("Member ID : ");
     int iBookid = userInput("Book ID : ");
-    if (Books[iBookid].DueDate() == NULL) {
+    if (Books[iBookid].DueDate().time == NULL) {
         std::cout << "Member does not have this book. \n\n ";
     }
     else {
@@ -190,7 +190,7 @@ void loadCSV() {
                 std::string strAuthorLastName = fields[4];
                 std::string strBookType = fields[5];
 
-                Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
+                Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName));
             }
             catch (const std::invalid_argument& e) {
                 std::cerr << "Invalid argument in CSV line: " << line << "\n\n ";

@@ -16,9 +16,14 @@ std::string Member::memberID() {
 }
 
 std::vector<Book> Member::booksBorrowed() {
-    return mapBook_booksLoaned;
+    return vectorBook_booksLoaned;
 }
 
 void Member::setBooksBorrowed(Book book) {
-    mapBook_booksLoaned = book;
+    if (book.DueDate() == NULL) {
+
+    }
+    else {
+        vectorBook_booksLoaned.push_back(book);
+    }
 }
