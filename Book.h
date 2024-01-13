@@ -10,27 +10,31 @@ class Book {
 private:
 
   int i_bookID;
+
   std::string str_bookName;
   std::string str_authorFirstName;
   std::string str_authorLastName;
   std::string str_bookType;
-  time_t str_dueDate;
+
+  Time str_dueDate;
   Member member_borrower;
 
 public:
+
   Book(int bookid, std::string bookname, std::string authorfirstname,
-       std::string authorlastname, std::string booktype);
+       std::string authorlastname);
   Book();
 
   int bookID();
   std::string bookName();
   std::string AuthorFirsName();
   std::string AuthorLastName();
-  time_t DueDate();
 
+  Time DueDate();
   void setDueDate(time_t duedate);
   void returnBook();
-  void borrowBook(Member borrower, time_t duedate);
+  void borrowBook(Member borrower, Time duedate);
+
 };
 
 #endif 

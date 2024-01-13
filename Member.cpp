@@ -11,14 +11,14 @@ Member::Member(int memberid, std::string name, std::string address,
 
 Member::Member() {};
 
-int Member::memberID() {
-    return i_memberID;
+std::string Member::memberID() {
+    return std::to_string(i_memberID);
 }
 
-std::map<int, Book> Member::booksBorrowed() {
+std::vector<Book> Member::booksBorrowed() {
     return mapBook_booksLoaned;
 }
 
-void Member::setBooksBorrowed(std::map<int, Book> books) {
-    mapBook_booksLoaned = books;
+void Member::setBooksBorrowed(Book book) {
+    mapBook_booksLoaned = book;
 }

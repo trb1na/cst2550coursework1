@@ -15,6 +15,7 @@ public:
   std::string name();
   std::string address();
   std::string email();
+
   void setName(std::string name);
   void setAddress(std::string address);
   void setEmail(std::string email);

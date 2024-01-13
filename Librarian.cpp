@@ -23,8 +23,7 @@ int Librarian::salary() {
     return i_salary;
 }
 
-void Librarian::addMember(int memberID, std::string name, std::string address,
-    std::string email) {
+void Librarian::addMember() {
     Members.emplace(memberID, Member(memberID, name, address, email));
 }
 
