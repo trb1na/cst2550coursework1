@@ -38,12 +38,15 @@ void Librarian::returnBook(int memberid, int bookid) {
     std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
     tempBooksBorrowed.erase(bookid);
     Members[memberid].setBooksBorrowed(tempBooksBorrowed);
+    Books[bookid].returnBook();
 }
 
 void Librarian::displayBorrowedBooks(int memberid) {
     std::map<int, Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
+    std::cout << "Books Borrowed : \n";
     for (auto& pair : tempBooksBorrowed) {
-        std::cout << pair.second.bookName();
+        std::cout << " - " << pair.second.bookName() << "\n";
+        std::cout << "\n\n";
     }
 }
 

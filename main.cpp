@@ -63,9 +63,9 @@ void menuAddMember() {
     std::string strAddress = userInput("Address : ",temp);
     std::string strEmail = userInput("Email : ",temp);
     Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
-    std::cout << "Made an account with : " << std::endl;
-    std::cout << "Member ID : " << iMemberid << "Name : " << 
-        strName << "Address : " << strAddress << "Email : " << strEmail << std::endl;
+    std::cout << "\nMade an account with : " << std::endl;
+    std::cout << "\nMember ID : " << iMemberid << "\nName : " << 
+        strName << "\nAddress : " << strAddress << "\nEmail : " << strEmail << "\n\n";
 }
 
 void menuIssueBook() {
@@ -80,7 +80,7 @@ void menuIssueBook() {
     ss >> date.tm_mday >> delimiter >> date.tm_mon >> delimiter >> date.tm_year;
 
     if (ss.fail() || delimiter != '/') {
-        std::cout << "Invalid date format.\n";
+        std::cout << "Invalid date format.\n\n";
     }
     else {
         date.tm_mon -= 1;
@@ -97,11 +97,11 @@ void menuIssueBook() {
                 Books[iBookid].setDueDate(dueDate);
             }
             else {
-                std::cout << "Book has already been issued. \n";
+                std::cout << "Book has already been issued. \n\n ";
             }
         }
         else {
-            std::cout << "Invalid or past date entered. Please enter a future date. \n";
+            std::cout << "Invalid or past date entered. \n\n ";
         }
     }
 }
@@ -110,7 +110,7 @@ void menuReturnBook() {
     int iMemberid = userInput("Member ID : ");
     int iBookid = userInput("Book ID : ");
     if (Books[iBookid].DueDate() == NULL) {
-        std::cout << "Member does not have this book.";
+        std::cout << "Member does not have this book. \n\n ";
     }
     else {
         Librarian1.returnBook(iMemberid, iBookid);
@@ -124,7 +124,7 @@ void menuDisplayBooks() {
         Librarian1.displayBorrowedBooks(iMemberid);
     }
     else {
-        std::cout << "Member has no books";
+        std::cout << "Member has no books \n ";
     }
 }
 
@@ -134,49 +134,67 @@ void menuCalculateFines() {
         Librarian1.calcFine(iMemberid);
     }
     else {
-        std::cout << "Member has no books";
+        std::cout << "Member has no books \n\n ";
     }
     
 }
 
-void loadCSV() {
+std::vector<std::string> splitCSV(std::string& line) {
+    std::vector<std::string> vecFields;
+    std::string strField;
+    bool bQuotes = false;
 
-    std::string filename;
+    for (char i : line) {
+        if (i == '"') {
+            bQuotes = !bQuotes; 
+        }
+        else if (i == ',' && !bQuotes) {
+            vecFields.push_back(strField);
+            strField.clear();
+        }
+        else {
+            strField.push_back(i);
+        }
+    }
+    vecFields.push_back(strField); 
+    return vecFields;
+}
+
+
+void loadCSV() {
+    std::string strFilename;
     for (const auto& entry : fs::directory_iterator(fs::current_path())) {
         if (entry.path().extension() == ".csv") {
-            filename = entry.path().string();
+            strFilename = entry.path().string();
             break;
         }
     }
-    
-    std::ifstream file(filename);
 
+    std::ifstream file(strFilename);
     if (!file.is_open()) {
-        throw std::runtime_error("File cannot be opened.");
+        std::cout << "File cannot be opened.\n\n ";
+        return;
     }
-    else {
-        std::string line;
 
-        while (std::getline(file, line)) {
-            std::stringstream ss(line);
+    std::string line;
+    std::getline(file, line);
 
-            int iBookid;
-            std::string strBookName;
-            std::string strPageCount;
-            std::string strAuthorFirstName;
-            std::string strAuthorLastName;
-            std::string strBookType;
-            char delimiter = ',';
+    while (std::getline(file, line)) {
+        auto fields = splitCSV(line);
+        if (fields.size() >= 6) {
+            try {
+                int iBookid = std::stoi(fields[0]);
+                std::string strBookName = fields[1];
+                std::string strPageCount = fields[2];
+                std::string strAuthorFirstName = fields[3];
+                std::string strAuthorLastName = fields[4];
+                std::string strBookType = fields[5];
 
-            ss >> iBookid;
-            ss.ignore();
-            std::getline(ss, strBookName, delimiter);
-            std::getline(ss, strPageCount, delimiter);
-            std::getline(ss, strAuthorFirstName, delimiter);
-            std::getline(ss, strAuthorLastName, delimiter);
-            std::getline(ss, strBookType, delimiter);
-
-            Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
+                Books.emplace(iBookid, Book(iBookid, strBookName, strAuthorFirstName, strAuthorLastName, strBookType));
+            }
+            catch (const std::invalid_argument& e) {
+                std::cerr << "Invalid argument in CSV line: " << line << "\n\n ";
+            }
         }
     }
 }
