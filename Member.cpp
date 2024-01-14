@@ -1,5 +1,6 @@
 #include "Member.h"
 #include "Book.h"
+#include <algorithm>
 
 Member::Member(int memberid, std::string name, std::string address,
     std::string email) {
