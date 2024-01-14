@@ -136,7 +136,7 @@ std::vector<std::string> splitCSV(std::string& line) {
     return vecFields;
 }
 
-void loadCSV() {
+int loadCSV() {
     std::string strFilename;
     for (const auto& entry : fs::directory_iterator(fs::current_path())) {
         if (entry.path().extension() == ".csv") {
@@ -148,7 +148,7 @@ void loadCSV() {
     std::ifstream file(strFilename);
     if (!file.is_open()) {
         std::cout << "\nFile cannot be opened.\n\n ";
-        return;
+        return 1;
     }
 
     std::string line;
@@ -172,11 +172,16 @@ void loadCSV() {
             }
         }
     }
+    return 0;
 }
 
 int main()
 {
-    loadCSV();
+    if (loadCSV()) {
+        std::cout << "Closing software.";
+        return 0;
+    }
+    
     int menuchoice;
     while (true)
     {
