@@ -24,7 +24,25 @@ int Librarian::salary() {
 }
 
 void Librarian::addMember() {
-    
+    int iMemberid = userInput("Member ID : ");
+    if (Members.count(iMemberid) == 0) {
+        std::regex regexName("^[A-Za-z]+(?:[ '-][A-Za-z]+)*$");
+        std::regex regexEmail(R"(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$)");
+        std::regex regexAddress("(?=.*[a-zA-Z])(?=.*[0-9]).+");
+
+        std::string strName = userInput("Name : ", regexName);
+        std::string strAddress = userInput("Address : ", regexAddress);
+        std::string strEmail = userInput("Email : ", regexEmail);
+
+        Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
+
+        std::cout << "\nMade an account with : " << std::endl;
+        std::cout << "\nMember ID : " << iMemberid << "\nName : " <<
+            strName << "\nAddress : " << strAddress << "\nEmail : " << strEmail << "\n\n";
+    }
+    else {
+        std::cout << "Member with this id already exists.";
+    }
 }
 
 void Librarian::issueBook(int memberid, int bookid) {
@@ -32,6 +50,7 @@ void Librarian::issueBook(int memberid, int bookid) {
 }
 
 void Librarian::returnBook(int memberid, int bookid) {
+    Books[bookid].setDueDate({0});
     Members[memberid].setBooksBorrowed(Books[bookid]);
 }
 
@@ -48,16 +67,24 @@ void Librarian::calcFine(int memberid) {
     std::vector<Book> tempBooksBorrowed = Members[memberid].booksBorrowed();
     time_t currentTime = time(nullptr);
 
+    int iTotalFine = 0;
     for (auto& book : tempBooksBorrowed) {
         time_t dueDate = book.DueDate().time;
 
         if (dueDate < currentTime) {
             int iDaysOverdue = difftime(currentTime, dueDate) / (60 * 60 * 24);
             int iFineAmount = iDaysOverdue * 10;
-
-            std::cout << "Book ID " << book.bookID() << " is overdue. Fine: £" << iFineAmount << std::endl;
+            iTotalFine += iFineAmount;
+            std::cout << "Book ID " << book.bookID() << " is overdue. Fine: £" << iFineAmount << "\n\n";
         }
     }
+    if (iTotalFine > 0) {
+        std::cout << "Total Fine : " << iTotalFine  << "\n\n";
+    } else {
+        std::cout << "No Fines. \n\n";
+    }
+    
+
 }
 
 void Librarian::setStaffID(int staffid) {

@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include <ctime>
-#include "Time.h"
+#include "Date.h"
 
 class Member;
 class Book;
@@ -12,7 +12,5 @@ class Book;
 extern std::map<int, Book>  Books; 
 extern std::map<int, Member> Members;
 extern time_t currentTime;
-
-extern struct Time;
 
 #endif 

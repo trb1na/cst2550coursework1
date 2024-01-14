@@ -20,8 +20,11 @@ std::vector<Book> Member::booksBorrowed() {
 }
 
 void Member::setBooksBorrowed(Book book) {
-    if (book.DueDate() == NULL) {
-
+    if (book.DueDate().time == NULL) {
+        int idToRemove = book.bookID();
+        vectorBook_booksLoaned.erase(std::remove_if(vectorBook_booksLoaned.begin(), vectorBook_booksLoaned.end(),
+            [idToRemove](Book b) { return b.bookID() == idToRemove; }),
+            vectorBook_booksLoaned.end());
     }
     else {
         vectorBook_booksLoaned.push_back(book);

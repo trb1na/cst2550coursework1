@@ -28,19 +28,19 @@ std::string Book::AuthorLastName() {
     return str_authorLastName;
 }
 
-Time Book::DueDate() {
+Date Book::DueDate() {
     return str_dueDate;
 }
 
-void Book::setDueDate(time_t duedate) {
-    str_dueDate.time = duedate;
+void Book::setDueDate(Date duedate) {
+    str_dueDate = duedate;
 }
 
 void Book::returnBook() {
     str_dueDate.time = NULL;
 }
 
-void Book::borrowBook(Member borrower, Time duedate) {
+void Book::borrowBook(Member borrower, Date duedate) {
     str_dueDate = duedate;
     member_borrower = borrower;
 }

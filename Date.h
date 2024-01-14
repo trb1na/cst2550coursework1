@@ -1,9 +1,9 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef DATE_H
+#define DATE_H
 
 #include <ctime>
 
-struct Time {
+struct Date {
     time_t time;
 };
 
