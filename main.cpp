@@ -46,9 +46,13 @@ void menuIssueBook() {
         return;
     }
 
-    std::tm date;
-    localtime_s(&date, &currentTime);
-    date.tm_mday += 3;
+    std::tm* pTmDate;
+    time_t rawCurrentTime = currentTime; 
+    pTmDate = localtime(&rawCurrentTime);
+
+    std::tm date = *pTmDate; 
+
+    date.tm_mday += 3; 
     time_t dueDate = mktime(&date);
 
     Books[iBookid].setDueDate({ dueDate });
