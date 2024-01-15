@@ -34,10 +34,6 @@ TEST_CASE("Librarian constructor, setters and getters.") {
 	REQUIRE(librarian.salary() == 100000);
 }
 
-TEST_CASE("addMember function") {
-	
-}
-
 TEST_CASE("issueBook and returnBook function") {
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
@@ -159,27 +155,21 @@ TEST_CASE("Book constructor, setters and getters") {
 //utils
 
 TEST_CASE("userInput function") {
+	SECTION("Handles valid input - integer") {
+		std::istringstream input("5\n");
+		std::ostringstream output;
+		int result = userInput("Enter number: ", input, output);
 
-}
+		REQUIRE(result == 5);
+		REQUIRE(output.str() == "Enter number: \n");
+	}
 
-TEST_CASE("menuIssueBook function") {
+	SECTION("Prompts again on invalid input then accepts valid input - integer") {
+		std::istringstream input("invalid\n5\n");
+		std::ostringstream output;
+		int result = userInput("Enter number: ", input, output);
 
-}
-TEST_CASE("menuReturnBook function") {
-
-}
-TEST_CASE("menuDisplayBooks function") {
-
-}
-
-TEST_CASE("menuCalculateFines function") {
-
-}
-
-TEST_CASE("splitCSV function") {
-
-}
-
-TEST_CASE("loadCSV function") {
-
+		REQUIRE(result == 5);
+		REQUIRE(output.str() == "Enter number: Invalid input. Please enter a number. \nEnter number: \n");
+	}
 }
