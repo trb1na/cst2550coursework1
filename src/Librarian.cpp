@@ -1,7 +1,7 @@
-#include "Librarian.h"
-#include "globals.h"
-#include "Member.h"
-#include "Book.h"
+#include "../includes/Librarian.h"
+#include "../includes/globals.h"
+#include "../includes/Member.h"
+#include "../includes/Book.h"
 #include <iostream>
 
 Librarian::Librarian(int staffid, std::string name, std::string address,
@@ -75,7 +75,7 @@ void Librarian::calcFine(int memberid) {
             int iDaysOverdue = difftime(currentTime, dueDate) / (60 * 60 * 24);
             int iFineAmount = iDaysOverdue * 10;
             iTotalFine += iFineAmount;
-            std::cout << "Book ID " << book.bookID() << " is overdue. Fine: £" << iFineAmount << "\n\n";
+            std::cout << "Book ID " << book.bookID() << " is overdue. Fine: ï¿½" << iFineAmount << "\n\n";
         }
     }
     if (iTotalFine > 0) {

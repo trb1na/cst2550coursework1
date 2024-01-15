@@ -1,9 +1,9 @@
-#include "utils.h"
-#include "Book.h"
-#include "Librarian.h"
-#include "Member.h"
-#include "Person.h"
-#include "globals.h"
+#include "../includes/utils.h"
+#include "../includes/Book.h"
+#include "../includes/Librarian.h"
+#include "../includes/Member.h"
+#include "../includes/Person.h"
+#include "../includes/globals.h"
 
 namespace fs = std::filesystem;
 
@@ -161,7 +161,9 @@ std::vector<std::string> splitCSV(std::string& line) {
 
 int loadCSV() {
     std::string strFilename;
-    for (const auto& entry : fs::directory_iterator(fs::current_path())) {
+    fs::path parent_path = fs::current_path().parent_path();
+
+    for (const auto& entry : fs::directory_iterator(parent_path)) {
         if (entry.path().extension() == ".csv") {
             strFilename = entry.path().string();
             break;

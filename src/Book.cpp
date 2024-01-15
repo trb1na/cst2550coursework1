@@ -1,5 +1,5 @@
-#include "Book.h"
-#include "globals.h"
+#include "../includes/Book.h"
+#include "../includes/globals.h"
 
 Book::Book(int bookid, std::string bookname, std::string authorfirstname,
     std::string authorlastname) {

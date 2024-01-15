@@ -1,13 +1,13 @@
 #define CATCH_CONFIG_MAIN
 
-#include "Book.h"
-#include "Date.h"
-#include "globals.h"
-#include "Librarian.h"
-#include "Member.h"
-#include "Person.h"
-#include "utils.h"
-#include "catch.hpp"
+#include "../includes/Book.h"
+#include "../includes/Date.h"
+#include "../includes/globals.h"
+#include "../includes/Librarian.h"
+#include "../includes/Member.h"
+#include "../includes/Person.h"
+#include "../includes/utils.h"
+#include "../includes/catch.hpp"
 
 
 //Librarian
@@ -97,7 +97,7 @@ TEST_CASE("calcFine function") {
 
 		std::cout.rdbuf(originalCoutBuffer);
 
-		std::string expectedOutput = "Book ID 1 is overdue. Fine: £70\n\nTotal Fine : 70\n\n";
+		std::string expectedOutput = "Book ID 1 is overdue. Fine: ï¿½70\n\nTotal Fine : 70\n\n";
 		REQUIRE(capturedOutput.str() == expectedOutput);
 	}
 }

@@ -1,9 +1,9 @@
-#include "Book.h"
-#include "Librarian.h"
-#include "Member.h"
-#include "Person.h"
-#include "globals.h"
-#include "utils.h"
+#include "../includes/Book.h"
+#include "../includes/Librarian.h"
+#include "../includes/Member.h"
+#include "../includes/Person.h"
+#include "../includes/globals.h"
+#include "../includes/utils.h"
 
 int main()
 {

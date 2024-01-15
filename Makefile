@@ -1,29 +1,33 @@
 CXX = g++
-CXXFLAGS = -g -Wall -Wextra -Wpedantic -std=c++17
-LDFLAGS =
-RM = rm -f
-TARGET = Library
-TEST_TARGET = tests
-SRCS = main.cpp Book.cpp Librarian.cpp Member.cpp Person.cpp utils.cpp
-TEST_SRCS = tests.cpp Book.cpp Librarian.cpp Member.cpp Person.cpp utils.cpp
-OBJS = $(SRCS:.cpp=.o)
-TEST_OBJS = $(TEST_SRCS:.cpp=.o)
+CXXFLAGS = -std=c++17 -Wall -Iincludes
+LDFLAGS = 
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
+INCLUDES = includes
 
-.PHONY: all clean test
+LIB_SRCS := $(filter-out $(SRC_DIR)/tests.cpp, $(wildcard $(SRC_DIR)/*.cpp))
+LIB_OBJS := $(LIB_SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-all: $(TARGET)
+TEST_SRCS := $(filter-out $(SRC_DIR)/main.cpp, $(wildcard $(SRC_DIR)/*.cpp))
+TEST_OBJS := $(TEST_SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+.PHONY: all clean library test
 
-$(TEST_TARGET): $(TEST_OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+all: library test
 
-test: $(TEST_TARGET)
-	./$(TEST_TARGET)
+library: $(BIN_DIR)/library
 
-%.o: %.cpp
+test: $(BIN_DIR)/test
+
+$(BIN_DIR)/library: $(LIB_OBJS)
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+$(BIN_DIR)/test: $(TEST_OBJS)
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(TEST_OBJS) $(TARGET) $(TEST_TARGET)
+	$(RM) $(OBJ_DIR)/*.o $(BIN_DIR)/test $(BIN_DIR)/library

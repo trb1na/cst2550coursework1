@@ -1,4 +1,4 @@
-#include "Person.h"
+#include "../includes/Person.h"
 
 std::string Person::address() {
 	return str_address;
