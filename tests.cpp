@@ -173,7 +173,7 @@ TEST_CASE("userInput function") {
 		REQUIRE(output.str() == "Enter number: Invalid input. Please enter a number. \nEnter number: \n");
 	}
 
-	std::regex anyString("^\w+$");
+	std::regex anyString(" ^ [A - Za - z0 - 9] + $");
 
 	SECTION("Handles valid input - string") {
 		std::istringstream input("ValidInput\n");
