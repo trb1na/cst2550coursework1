@@ -172,4 +172,33 @@ TEST_CASE("userInput function") {
 		REQUIRE(result == 5);
 		REQUIRE(output.str() == "Enter number: Invalid input. Please enter a number. \nEnter number: \n");
 	}
+
+	std::regex anyString("^\w+$");
+
+	SECTION("Handles valid input - string") {
+		std::istringstream input("ValidInput\n");
+		std::ostringstream output;
+		std::string result = userInput("Enter text: ", anyString, input, output);
+
+		REQUIRE(result == "ValidInput");
+		REQUIRE(output.str() == "Enter text: \n");
+	}
+
+	SECTION("Prompts again on invalid input then accepts valid input - string") {
+		std::istringstream input("123\nValidInput\n");
+		std::ostringstream output;
+		std::string result = userInput("Enter text: ", anyString, input, output);
+
+		REQUIRE(result == "ValidInput");
+		REQUIRE(output.str() == "Enter text: Invalid input. Please enter a valid string.\nEnter text: \n");
+	}
+
+	SECTION("Handles empty input - string") {
+		std::istringstream input("\nValidInput\n");
+		std::ostringstream output;
+		std::string result = userInput("Enter text: ", anyString, input, output);
+
+		REQUIRE(result == "ValidInput");
+		REQUIRE(output.str() == "Enter text: Invalid input. Please enter a valid string.\nEnter text: \n");
+	}
 }
