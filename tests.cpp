@@ -34,7 +34,80 @@ TEST_CASE("Librarian constructor, setters and getters.") {
 	REQUIRE(librarian.salary() == 100000);
 }
 
-TEST_CASE("Librarian methods") {
+TEST_CASE("addMember function") {
+	
+}
+
+TEST_CASE("issueBook and returnBook function") {
+	std::map<int, Member> members;
+	std::map<int, Book> books;
+
+	members.emplace(1, Member(1, "Name", "Address", "Email"));
+	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
+
+	Librarian librarian;
+
+	SECTION("issueBook") {
+		books[1].setDueDate({ 3 });
+		librarian.issueBook(1, 1);
+
+		REQUIRE(members[1].booksBorrowed().size() == 1);
+	}
+
+	SECTION("returnBook") {
+		librarian.returnBook(1, 1);
+
+		REQUIRE(members[1].booksBorrowed().size() == 0);
+		REQUIRE(books[1].DueDate().time == 0);
+	}
+}
+
+TEST_CASE("displayBorrowedBooks function") {
+	std::map<int, Member> members;
+	std::map<int, Book> books;
+
+	members.emplace(1, Member(1, "Name", "Address", "Email"));
+	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
+
+	members[1].setBooksBorrowed(Books[1]);
+
+	Librarian librarian;
+
+	std::ostringstream oss;
+	auto cout_buff = std::cout.rdbuf();
+	std::cout.rdbuf(oss.rdbuf());
+
+
+	librarian.displayBorrowedBooks(1);
+
+	std::cout.rdbuf(cout_buff);
+
+	std::string expectedOutput = "Books Borrowed : \n - Book Title\n\n\n";
+
+	REQUIRE(oss.str() == expectedOutput);
+}
+
+TEST_CASE("calcFine function") {
+	std::map<int, Member> members;
+	std::map<int, Book> books;
+	time_t currentTime = time(nullptr);
+
+	members.emplace(1, Member(1, "Name", "Address", "Email"));
+	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
+	books[1].setDueDate({ currentTime });
+	members[1].setBooksBorrowed(Books[1]);
+
+	Librarian librarian;
+	
+	SECTION("No Fine") {
+
+	}
+
+	SECTION("Fine") {
+
+	}
+
+
 
 }
 
@@ -98,3 +171,29 @@ TEST_CASE("Book constructor, setters and getters") {
 }
 
 //utils
+
+TEST_CASE("userInput function") {
+
+}
+
+TEST_CASE("menuIssueBook function") {
+
+}
+TEST_CASE("menuReturnBook function") {
+
+}
+TEST_CASE("menuDisplayBooks function") {
+
+}
+
+TEST_CASE("menuCalculateFines function") {
+
+}
+
+TEST_CASE("splitCSV function") {
+
+}
+
+TEST_CASE("loadCSV function") {
+
+}
