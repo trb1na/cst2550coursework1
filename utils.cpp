@@ -64,7 +64,7 @@ void menuIssueBook() {
         return;
     }
 
-    if (Books[iBookid].DueDate().time != NULL) {
+    if (Books[iBookid].DueDate().time != 0) {
         std::cout << "\nBook has already been issued. \n\n ";
         return;
     }

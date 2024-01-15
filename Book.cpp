@@ -7,7 +7,7 @@ Book::Book(int bookid, std::string bookname, std::string authorfirstname,
     str_bookName = bookname;
     str_authorFirstName = authorfirstname;
     str_authorLastName = authorlastname;
-    str_dueDate.time = NULL;
+    str_dueDate.time = 0;
 }
 
 Book::Book() {};
@@ -37,7 +37,7 @@ void Book::setDueDate(Date duedate) {
 }
 
 void Book::returnBook() {
-    str_dueDate.time = NULL;
+    str_dueDate.time = 0;
 }
 
 void Book::borrowBook(Member borrower, Date duedate) {
