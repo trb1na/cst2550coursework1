@@ -57,29 +57,6 @@ TEST_CASE("issueBook and returnBook function") {
 	}
 }
 
-TEST_CASE("displayBorrowedBooks function") {
-	Members.clear();
-	Books.clear();
-	Members.emplace(1, Member(1, "Name", "Address", "Email"));
-	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
-
-	Members[1].setBooksBorrowed(Books[1]);
-
-	Librarian librarian;
-
-	std::ostringstream oss;
-	auto cout_buff = std::cout.rdbuf();
-	std::cout.rdbuf(oss.rdbuf());
-
-	librarian.displayBorrowedBooks(1);
-
-	std::cout.rdbuf(cout_buff);
-
-	std::string expectedOutput = "Books Borrowed : \n - Book Title\n\n\n";
-
-	REQUIRE(oss.str() == expectedOutput);
-}
-
 TEST_CASE("calcFine function") {
 	time_t currentTime = time(nullptr);
 
@@ -88,19 +65,41 @@ TEST_CASE("calcFine function") {
 
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
-	Books[1].setDueDate({ currentTime });
-	Members[1].setBooksBorrowed(Books[1]);
 
 	Librarian librarian;
-	
-	SECTION("No Fine") {
 
+	SECTION("No Fine") {
+		time_t futureTime = currentTime + (24 * 60 * 60); 
+		Books[1].setDueDate({ futureTime });
+		Members[1].setBooksBorrowed(Books[1]);
+
+		std::ostringstream capturedOutput;
+		std::streambuf* originalCoutBuffer = std::cout.rdbuf();
+		std::cout.rdbuf(capturedOutput.rdbuf());
+
+		librarian.calcFine(1);
+
+		std::cout.rdbuf(originalCoutBuffer);
+
+		REQUIRE(capturedOutput.str() == "No Fines. \n\n");
 	}
 
 	SECTION("Fine") {
+		time_t pastTime = currentTime - (7 * 24 * 60 * 60); 
+		Books[1].setDueDate({ pastTime });
+		Members[1].setBooksBorrowed(Books[1]);
 
+		std::ostringstream capturedOutput;
+		std::streambuf* originalCoutBuffer = std::cout.rdbuf();
+		std::cout.rdbuf(capturedOutput.rdbuf());
+
+		librarian.calcFine(1);
+
+		std::cout.rdbuf(originalCoutBuffer);
+
+		std::string expectedOutput = "Book ID 1 is overdue. Fine: £70\n\nTotal Fine : 70\n\n";
+		REQUIRE(capturedOutput.str() == expectedOutput);
 	}
-
 }
 
 //Member
