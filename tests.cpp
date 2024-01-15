@@ -35,6 +35,8 @@ TEST_CASE("Librarian constructor, setters and getters.") {
 }
 
 TEST_CASE("issueBook and returnBook function") {
+	Members.clear();
+	Books.clear();
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
 
@@ -56,6 +58,8 @@ TEST_CASE("issueBook and returnBook function") {
 }
 
 TEST_CASE("displayBorrowedBooks function") {
+	Members.clear();
+	Books.clear();
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
 
@@ -78,6 +82,9 @@ TEST_CASE("displayBorrowedBooks function") {
 
 TEST_CASE("calcFine function") {
 	time_t currentTime = time(nullptr);
+
+	Members.clear();
+	Books.clear();
 
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
