@@ -7,6 +7,11 @@
 
 namespace fs = std::filesystem;
 
+std::map<int, Member> Members;
+std::map<int, Book> Books;
+time_t currentTime = time(nullptr);
+Librarian Librarian1 = Librarian(1, std::string("Librarian"), std::string("777 Librarian Road"), std::string("email@gmail.com"), 400000);
+
 int userInput(std::string message, std::istream& in, std::ostream& out) {
     int tempInput;
     while (true) {
