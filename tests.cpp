@@ -12,7 +12,7 @@
 
 //Librarian
 TEST_CASE("Librarian constructor, setters and getters.") {
-	Librarian librarian(1, "Libriarian", "123 Librarian street", "Librarian@library.com", 50000);
+	Librarian librarian(1, "Librarian", "123 Librarian street", "Librarian@library.com", 50000);
 	INFO("Testing constructor with initial values")
 	REQUIRE(librarian.staffID() == 1);
 	REQUIRE(librarian.name() == "Librarian");
@@ -39,26 +39,26 @@ TEST_CASE("addMember function") {
 }
 
 TEST_CASE("issueBook and returnBook function") {
-	std::map<int, Member> members;
-	std::map<int, Book> books;
+	std::map<int, Member> Members;
+	std::map<int, Book> Books;
 
-	members.emplace(1, Member(1, "Name", "Address", "Email"));
-	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
+	Members.emplace(1, Member(1, "Name", "Address", "Email"));
+	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
 
 	Librarian librarian;
 
 	SECTION("issueBook") {
-		books[1].setDueDate({ 3 });
+		Books[1].setDueDate({ 3 });
 		librarian.issueBook(1, 1);
 
-		REQUIRE(members[1].booksBorrowed().size() == 1);
+		REQUIRE(Members[1].booksBorrowed().size() == 1);
 	}
 
 	SECTION("returnBook") {
 		librarian.returnBook(1, 1);
 
-		REQUIRE(members[1].booksBorrowed().size() == 0);
-		REQUIRE(books[1].DueDate().time == 0);
+		REQUIRE(Members[1].booksBorrowed().size() == 0);
+		REQUIRE(Books[1].DueDate().time == 0);
 	}
 }
 
@@ -117,8 +117,8 @@ TEST_CASE("Member constructor, setters and getters") {
 	INFO("Testing constructor with initial values")
 	REQUIRE(member.memberID() == "1");
 	REQUIRE(member.name() == "Member");
-	REQUIRE(member.email() == "123 Member street");
-	REQUIRE(member.address() == "Member@member.com");
+	REQUIRE(member.address() == "123 Member street");
+	REQUIRE(member.email() == "Member@member.com");
 	
 	Book book;
 	book.setDueDate({0});
