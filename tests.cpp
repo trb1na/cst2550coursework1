@@ -39,9 +39,6 @@ TEST_CASE("addMember function") {
 }
 
 TEST_CASE("issueBook and returnBook function") {
-	std::map<int, Member> Members;
-	std::map<int, Book> Books;
-
 	Members.emplace(1, Member(1, "Name", "Address", "Email"));
 	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
 
@@ -63,20 +60,16 @@ TEST_CASE("issueBook and returnBook function") {
 }
 
 TEST_CASE("displayBorrowedBooks function") {
-	std::map<int, Member> members;
-	std::map<int, Book> books;
+	Members.emplace(1, Member(1, "Name", "Address", "Email"));
+	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
 
-	members.emplace(1, Member(1, "Name", "Address", "Email"));
-	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
-
-	members[1].setBooksBorrowed(Books[1]);
+	Members[1].setBooksBorrowed(Books[1]);
 
 	Librarian librarian;
 
 	std::ostringstream oss;
 	auto cout_buff = std::cout.rdbuf();
 	std::cout.rdbuf(oss.rdbuf());
-
 
 	librarian.displayBorrowedBooks(1);
 
@@ -88,14 +81,12 @@ TEST_CASE("displayBorrowedBooks function") {
 }
 
 TEST_CASE("calcFine function") {
-	std::map<int, Member> members;
-	std::map<int, Book> books;
 	time_t currentTime = time(nullptr);
 
-	members.emplace(1, Member(1, "Name", "Address", "Email"));
-	books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
-	books[1].setDueDate({ currentTime });
-	members[1].setBooksBorrowed(Books[1]);
+	Members.emplace(1, Member(1, "Name", "Address", "Email"));
+	Books.emplace(1, Book(1, "Book Title", "Author Name", "Author Surname"));
+	Books[1].setDueDate({ currentTime });
+	Members[1].setBooksBorrowed(Books[1]);
 
 	Librarian librarian;
 	
@@ -106,8 +97,6 @@ TEST_CASE("calcFine function") {
 	SECTION("Fine") {
 
 	}
-
-
 
 }
 
