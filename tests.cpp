@@ -73,6 +73,8 @@ TEST_CASE("Member constructor, setters and getters") {
 	REQUIRE(member.booksBorrowed() == expectedBooks);
 }
 //Book
+
+
 TEST_CASE("Book constructor, setters and getters") {
 	Book book(1, "Book Title", "Author Name", "Author Surname");
 	INFO("Testing constructor with initial values.")

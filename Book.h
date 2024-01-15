@@ -36,6 +36,10 @@ public:
   void returnBook();
   void borrowBook(Member borrower, Date duedate);
 
+  bool operator==(const Book& other) const {
+      return this->i_bookID == other.i_bookID;
+  }
+
 };
 
 #endif 

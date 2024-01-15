@@ -14,8 +14,8 @@
 #include <ctime>
 #include <chrono>
 
-int userInput(std::string message);
-std::string userInput(const std::string& message, const std::regex pattern);
+int userInput(std::string message, std::istream& in, std::ostream& out);
+std::string userInput(std::string message, std::regex pattern, std::istream& in, std::ostream& out);
 void menuAddMember();
 void menuIssueBook();
 void menuReturnBook();

@@ -24,15 +24,15 @@ int Librarian::salary() {
 }
 
 void Librarian::addMember() {
-    int iMemberid = userInput("Member ID : ");
+    int iMemberid = userInput("Member ID : ", std::cin, std::cout);
     if (Members.count(iMemberid) == 0) {
         std::regex regexName("^[A-Za-z]+(?:[ '-][A-Za-z]+)*$");
         std::regex regexEmail(R"(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$)");
         std::regex regexAddress("(?=.*[a-zA-Z])(?=.*[0-9]).+");
 
-        std::string strName = userInput("Name : ", regexName);
-        std::string strAddress = userInput("Address : ", regexAddress);
-        std::string strEmail = userInput("Email : ", regexEmail);
+        std::string strName = userInput("Name : ", regexName, std::cin, std::cout);
+        std::string strAddress = userInput("Address : ", regexAddress, std::cin, std::cout);
+        std::string strEmail = userInput("Email : ", regexEmail, std::cin, std::cout);
 
         Members.emplace(iMemberid, Member(iMemberid, strName, strAddress, strEmail));
 
