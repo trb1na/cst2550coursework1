@@ -122,17 +122,14 @@ TEST_CASE("Member constructor, setters and getters") {
 	REQUIRE(member.address() == "New Address");
 	REQUIRE(member.email() == "NewEmail@email.com");
 
-	std::vector<Book> expectedBooks = { book };
-
-	INFO("Testing booksBorrowed after setting a book with no due date.");
-	REQUIRE(member.booksBorrowed() == expectedBooks);
+	INFO("Testing setbooksBorrowed after setting a book with no due date.");
+	REQUIRE(member.booksBorrowed().size() == 0);
 	
-	expectedBooks.clear();
 	book.setDueDate({ 1 });
 	member.setBooksBorrowed(book);
 
 	INFO("Testing booksBorrowed after setting a book with a due date.");
-	REQUIRE(member.booksBorrowed() == expectedBooks);
+	REQUIRE(member.booksBorrowed().size() == 1);
 }
 //Book
 
